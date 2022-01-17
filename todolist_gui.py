@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import OptionMenu, font as tkfont
 from tkinter import messagebox
 from tkinter.constants import *
+from tkcalendar import Calendar
 
 import todolist_database
 data_todo = todolist_database.database_todolist()
@@ -27,14 +28,14 @@ class MainApp(tk.Tk):
         container.grid_columnconfigure(0, weight=1)
 
         self.frames = {}
-        for F in (LoginPage, FolderPage, FolderPage_add, TodoPage, TodoPage_add,FinishedPage):
+        for F in (LoginPage, FolderPage, FolderPage_add, TodoPage, TodoPage_add,FinishedPage,CreateAcc):
             page_name = F.__name__
             frame = F(parent=container, controller=self)
             self.frames[page_name] = frame
 
             frame.grid(row=0, column=0, sticky="nsew")
 
-        self.show_frame("LoginPage")
+        self.show_frame("TodoPage_add")
 
     def show_frame(self, page_name):
         '''Show a frame for the given page name'''
@@ -77,7 +78,10 @@ class LoginPage(tk.Frame):
 
         button_login = tk.Button(self, text="Login",
                             command=lambda:  self.check(input_username,input_password) )
-        button_login.place(x=192, y= 350 ,anchor='center')
+        button_login.place(x=170, y= 350 ,anchor='center')
+
+        button_register = tk.Button(self, text="create new account", command=lambda:  self.controller.show_frame("CreateAcc"))
+        button_register.place(x=255, y= 350 ,anchor='center')
 
     def check(self,username,password) :
         id = -1
@@ -98,6 +102,45 @@ class LoginPage(tk.Frame):
             return id
         else:
             tk.messagebox.showerror("Error", "incorrect username or password")
+
+class CreateAcc(tk.Frame) :
+
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        self.controller = controller
+        self.configure(background='#f2f1f6')
+
+        image_bg = tk.Canvas(self, width=356, height=264)
+        self.image_bg_link = tk.PhotoImage(file="assets/folder/bg_add.png")
+        image_bg.create_image(0, 0, anchor=NW, image=self.image_bg_link)
+        image_bg.place(x=192, y= 342, anchor='center')
+
+        self.label_todo = tk.Label(self, text="Add User", bg = "#f2f1f6", font=("Calibri 22 bold"))
+        self.label_todo.place(x=30, y= 210, anchor='sw')
+
+        self.image_btn_back_link = tk.PhotoImage(file='assets/folder/x.png')
+        image_btn_back = tk.Button(self, image=self.image_btn_back_link,borderwidth=0,command=lambda: self.controller.show_frame("LoginPage"))
+        image_btn_back.place(x=340, y= 190, anchor='center')
+
+        label_newUsername = tk.Label(self, text='New username :', bg="white",font=("Calibri 14"))
+        label_newUsername.place(x=180, y= 250, anchor='e')
+
+        input_newUsername = tk.StringVar()
+        entry_newUsername = tk.Entry(self,textvariable=input_newUsername,width=30,borderwidth=2,font=("Calibri 13"))
+        entry_newUsername.place(x=192, y= 285 ,anchor='center')
+
+        label_newPassword = tk.Label(self, text='New password :', bg="white",font=("Calibri 14"))
+        label_newPassword.place(x=180, y= 320, anchor='e')
+
+        input_newPassword = tk.StringVar()
+        entry_newPassword = tk.Entry(self,textvariable=input_newPassword,width=30,borderwidth=2,font=("Calibri 13"))
+        entry_newPassword.place(x=192, y= 355 ,anchor='center')
+
+        button_create = tk.Button(self, text="create", command=lambda:  self.create_account(input_newUsername,input_newPassword) )
+        button_create.place(x=192, y= 412, anchor='center')
+
+    def create_account(self,newUsername,newPassword) :
+        self.controller.show_frame("LoginPage")
 
 class FolderPage(tk.Frame):
 
@@ -344,6 +387,21 @@ class TodoPage_add(tk.Frame):
         input_nameDate = tk.StringVar()
         entry_nameDate = tk.Entry(self,textvariable=input_nameDate,width=30,borderwidth=2,font=("Calibri 13"))
         entry_nameDate.place(x=192, y= 370 ,anchor='center')
+
+        cal = Calendar(self, selectmode = 'day',
+               year = 2022, month = 1,
+               day = 1)
+ 
+        cal.place(x=192, y= 570 ,anchor='center')
+ 
+        def grad_date():
+            date.config(text = "Selected Date is: " + cal.get_date())
+
+        button_create = tk.Button(self, text="Get Date", command= grad_date )
+        button_create.place(x=252, y= 340 ,anchor='center')
+ 
+        date = tk.Label(self, text = "")
+        date.place(x=192, y= 370 ,anchor='center')
 
     def add(self,input_nameFolder,input_date,input_time,input_task): #user_ID,in_folderName,in_date,in_time,in_task
         print("Add TO-DO List :",input_task)
