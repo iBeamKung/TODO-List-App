@@ -5,7 +5,7 @@ class database_todolist():
     def __init__(self):
         print("JSON Database Loaded!")
         self.database = json.load(open('database_todo.json'))
-        self.user_database = json.load(open('database_user.json'))
+        #self.user_database = json.load(open('database_user.json'))
 
     def folder(self,user_ID):
         folderName = []
@@ -19,8 +19,17 @@ class database_todolist():
         for i in self.database["todoData"]:
             if i["user_id"] == user_ID:
                 #print(i["todolist"])
-                i["todolist"].append({"folder": str(folderName), "task" : []})
-        self.save_json()
+                i["todolist"].append(
+                                        {
+                                            "folder": str(folderName),
+                                            "task_done": 0,
+                                            "task_undone": 0,
+                                            "task" : []
+                                        }
+                                    )
+                self.save_json()
+                return "Add Folder : " + str(folderName)
+        return "Error! >>> Add Folder : " + str(folderName)
 
     def del_folder(self,user_ID,folderName):
         for i in self.database["todoData"]:
@@ -28,14 +37,15 @@ class database_todolist():
                 for count,j in enumerate(i["todolist"]):
                     if(j["folder"] == folderName):
                         i["todolist"].pop(count)
-        self.save_json()
+                        self.save_json()
+                        return "Del Folder : " + str(folderName)
+        return "Error! >>> Del Folder : " + str(folderName)
 
     def task(self,user_ID,in_folderName):
         for i in self.database["todoData"]:
             if i["user_id"] == user_ID:
                 for j in i["todolist"]:
                     if j["folder"] == in_folderName:
-                        #print(j["task"])
                         return(j["task"])
 
     def add_task(self,user_ID,in_folderName,in_date,in_time,in_task):
@@ -50,10 +60,12 @@ class database_todolist():
                                 break
                             have_date +=1
                         if have_date == len(j["task"]):
-                            print("no task in date")
+                            ##print("no task in date")
                             j["task"].append({"date": in_date, "task_done" : 0, "task_undone": 1, "todo":[{"time": in_time,"data": in_task,"done": False}]})
+                            self.save_json()
+                            return "Add Task : " + str(in_task) + " to Folder : " + str(in_folderName) + " in User : " + str(user_ID)
                         else:
-                            print("Added task in date")
+                            #print("Added task in date")
                             have_time = 0
                             time_write = in_time.split(":")
                             time_read = []
@@ -76,7 +88,8 @@ class database_todolist():
                                         have_time += 1
                                         break
                             j["task"][have_date]["todo"].insert(have_time,{"time": in_time,"data": in_task,"done": False})
-        self.save_json()
+                            self.save_json()
+                            return "Add Task : " + str(in_task) + " to Folder : " + str(in_folderName) + " in User : " + str(user_ID)
 
     def del_task(self,user_ID,in_folderName,in_date,in_time,in_task):
         for i in self.database["todoData"]:
@@ -88,8 +101,8 @@ class database_todolist():
                                 for count,l in enumerate(k["todo"]):
                                     if l["time"] == in_time and l["data"] == in_task:
                                         k["todo"].pop(count)
-        self.save_json()
-                                        
+                                        self.save_json()
+
     def display_task(self,user_ID,in_folderName):
         display = []
         for i in self.database["todoData"]:
@@ -108,16 +121,16 @@ class database_todolist():
         print("JSON Database Save!")
         with open('database_todo.json', 'w', encoding='utf-8') as f:
             json.dump(self.database, f, ensure_ascii=False, indent=4)
-            
+
     def username(self) :
         user = [] 
-        for i in self.user_database["userData"] :
+        for i in self.database["todoData"] :
             user.append(i["username"])
         return user
 
     def password(self) :
         password = [] 
-        for i in self.user_database["userData"] :
+        for i in self.database["todoData"] :
             password.append(i["password"])
         return password
 
