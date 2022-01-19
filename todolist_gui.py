@@ -58,35 +58,35 @@ class LoginPage(tk.Frame):
         self.configure(background='#f2f1f6')
 
         image_bg = tk.Canvas(self, width=296, height=216)
-        self.image_bg_link = tk.PhotoImage(file="assets\Login\BG_Login.png")
+        self.image_bg_link = tk.PhotoImage(file="assets\login\BG_Login.png")
         image_bg.create_image(0, 0, anchor=NW, image=self.image_bg_link)
-        image_bg.place(x=192, y= 295, anchor='center')
+        image_bg.place(x=192, y= 341, anchor='center')
 
-        image_logo = tk.Canvas(self, width=305, height=75)
-        self.image_logo_link = tk.PhotoImage(file="assets\Login\Logo.png")
-        image_logo.create_image(5, 5, anchor=NW, image=self.image_logo_link)
-        image_logo.place(x=192, y= 120, anchor='center')
+        image_logo = tk.Canvas(self, width=169, height=70)
+        self.image_logo_link = tk.PhotoImage(file="assets\login\logo.png")
+        image_logo.create_image(4, 4, anchor=NW, image=self.image_logo_link)
+        image_logo.place(x=192, y= 170, anchor='center')
 
         label_username = tk.Label(self, text='Username:', bg="white",font=("Calibri 12"))
-        label_username.place(x=130, y= 250, anchor='e')
+        label_username.place(x=130, y= 296, anchor='e')
 
         input_username = tk.StringVar()
         entry_username = tk.Entry(self,textvariable=input_username,width=20,borderwidth=2,font=("Calibri 13"))
-        entry_username.place(x=222, y= 250 ,anchor='center')
+        entry_username.place(x=222, y= 296 ,anchor='center')
 
         label_password = tk.Label(self, text='Password:', bg="white",font=("Calibri 12"))
-        label_password.place(x=130, y= 300, anchor='e')
+        label_password.place(x=130, y= 346, anchor='e')
 
         input_password = tk.StringVar()
         entry_password = tk.Entry(self,textvariable=input_password,show="*",width=20,borderwidth=2,font=("Calibri 13"))
-        entry_password.place(x=222, y= 300 ,anchor='center')
+        entry_password.place(x=222, y= 346 ,anchor='center')
 
         button_login = tk.Button(self, text="Login",
                             command=lambda:  [self.check(input_username.get(),input_password.get()),entry_username.delete(0, 'end'),entry_password.delete(0, 'end')] )
-        button_login.place(x=170, y= 350 ,anchor='center')
+        button_login.place(x=192, y= 396 ,anchor='center')
 
-        button_register = tk.Button(self, text="create new account", command=lambda:  self.controller.show_frame("RegisterPage"))
-        button_register.place(x=255, y= 350 ,anchor='center')
+        button_register = tk.Button(self, text="Register", command=lambda:  self.controller.show_frame("RegisterPage"))
+        button_register.place(x=286, y= 396 ,anchor='center')
 
     def check(self,username,password) :
         print("Login username : ", username , "\ninput_password : " ,password )
@@ -210,7 +210,7 @@ class FolderPage(tk.Frame):
         image_bg.place(x=192, y= 332, anchor='center')
 
         image_logo = tk.Canvas(self, width=43, height=30)
-        self.image_logo_link = tk.PhotoImage(file="assets/folder/folder.png")
+        self.image_logo_link = tk.PhotoImage(file="assets/folder/folder1.png")
         image_logo.create_image(2, 2, anchor=NW, image=self.image_logo_link)
         image_logo.place(x=49, y= 49, anchor='center')
 
@@ -405,7 +405,7 @@ class StatFolderPage(tk.Frame):
         barChart.set_xticks(x)
         barChart.set_xticklabels(data_stat[0], rotation='vertical', fontsize=10)
         #subplot1.set_yticks(fontsize=10)
-        #barChart.legend()
+        barChart.legend()
         barChart.spines["top"].set_visible(False)
         barChart.spines["right"].set_visible(False)
         barChart.spines["left"].set_visible(False)
@@ -456,20 +456,20 @@ class TodoPage(tk.Frame):
         self.image_btn_done_link = tk.PhotoImage(file='assets/todo/done.png')
         image_btn_done_label = tk.Label(self,image=self.image_btn_done_link)
         image_btn_done_add = tk.Button(self, image=self.image_btn_done_link,borderwidth=0,command=lambda: self.doneTodo(self.label_todo.cget("text"),self.listbox.curselection()))
-        image_btn_done_add.place(x=277, y= 53, anchor='center')
+        image_btn_done_add.place(x=275, y= 53, anchor='center')
 
         self.image_btn_add_link = tk.PhotoImage(file='assets/todo/add.png')
         image_btn_add_label = tk.Label(self,image=self.image_btn_add_link)
         image_btn_add = tk.Button(self, image=self.image_btn_add_link,borderwidth=0,command=lambda: self.addTodo())
-        image_btn_add.place(x=312, y= 53, anchor='center')
+        image_btn_add.place(x=310, y= 53, anchor='center')
 
         self.image_btn_del_link = tk.PhotoImage(file='assets/todo/del.png')
         image_btn_del_label = tk.Label(self,image=self.image_btn_del_link)
         image_btn_del = tk.Button(self, image=self.image_btn_del_link,borderwidth=0,command=lambda: self.delTodo(self.label_todo.cget("text"),self.listbox.curselection()))
-        image_btn_del.place(x=347, y= 53, anchor='center')
+        image_btn_del.place(x=345, y= 53, anchor='center')
 
         button_finished = tk.Button(self, text = "Finished" ,command=lambda: controller.show_frame("TodoPage_finished"))
-        button_finished.place(x=230, y= 53 ,anchor='center')
+        button_finished.place(x=252, y= 65 ,anchor='se')
         
         image_bg2 = tk.Canvas(self, width=356, height=75)
         self.image_bg2_link = tk.PhotoImage(file="assets/todo/bg2.png")
@@ -529,10 +529,9 @@ class TodoPage(tk.Frame):
 
         if(in_Todo != ()):
             for i in range(in_Todo[0]-1,-1,-1):
-                if(self.listbox.get(i)[0:3] == "==="):
-                    date = self.listbox.get(i)[15:23]
+                if(self.listbox.get(i)[0:4] == "Date"):
+                    date = self.listbox.get(i)[7:15]
                     break
-            print("Done TO-DO List :", self.listbox.get(in_Todo[0]))
             time = self.listbox.get(in_Todo[0])[0:5]
             data = self.listbox.get(in_Todo[0])[8:]
             data_todo.done_task(self.controller.user_id,in_Folder,date,time,data)
@@ -546,8 +545,8 @@ class TodoPage(tk.Frame):
         if(in_Todo != ()):
 
             for i in range(in_Todo[0]-1,-1,-1):
-                if(self.listbox.get(i)[0:3] == "==="):
-                    date = self.listbox.get(i)[15:23]
+                if(self.listbox.get(i)[0:4] == "Date"):
+                    date = self.listbox.get(i)[7:15]
                     break
             time = self.listbox.get(in_Todo[0])[0:5]
             data = self.listbox.get(in_Todo[0])[8:]
@@ -681,23 +680,23 @@ class TodoPage_finished(tk.Frame):
         self.listbox.config(yscrollcommand = scrollbar.set)
         scrollbar.config(command = self.listbox.yview)
 
-        self.image_btn_done_link = tk.PhotoImage(file='assets/todo/done.png')
+        self.image_btn_done_link = tk.PhotoImage(file='assets/todo/undone.png')
         image_btn_done_label = tk.Label(self,image=self.image_btn_done_link)
         image_btn_done_add = tk.Button(self, image=self.image_btn_done_link,borderwidth=0,command=lambda: self.undoneTodo(self.label_todo.cget("text"),self.listbox.curselection()))
-        image_btn_done_add.place(x=277, y= 53, anchor='center')
+        image_btn_done_add.place(x=275, y= 53, anchor='center')
 
         self.image_btn_add_link = tk.PhotoImage(file='assets/todo/add.png')
         image_btn_add_label = tk.Label(self,image=self.image_btn_add_link)
         image_btn_add = tk.Button(self, image=self.image_btn_add_link,borderwidth=0,command=lambda: self.addTodo())
-        image_btn_add.place(x=312, y= 53, anchor='center')
+        image_btn_add.place(x=310, y= 53, anchor='center')
 
         self.image_btn_del_link = tk.PhotoImage(file='assets/todo/del.png')
         image_btn_del_label = tk.Label(self,image=self.image_btn_del_link)
         image_btn_del = tk.Button(self, image=self.image_btn_del_link,borderwidth=0,command=lambda: self.delTodo(self.label_todo.cget("text"),self.listbox.curselection()))
-        image_btn_del.place(x=347, y= 53, anchor='center')
+        image_btn_del.place(x=345, y= 53, anchor='center')
 
         button_undone = tk.Button(self, text = "Undone" ,command=lambda: controller.show_frame("TodoPage"))
-        button_undone.place(x=230, y= 53 ,anchor='center')
+        button_undone.place(x=252, y= 65 ,anchor='se')
 
     def update_listbox(self):
         print("Update TO-DO List :",self.label_todo.cget("text"))
@@ -714,8 +713,8 @@ class TodoPage_finished(tk.Frame):
 
         if(in_Todo != ()):
             for i in range(in_Todo[0]-1,-1,-1):
-                if(self.listbox.get(i)[0:3] == "==="):
-                    date = self.listbox.get(i)[15:23]
+                if(self.listbox.get(i)[0:4] == "Date"):
+                    date = self.listbox.get(i)[7:15]
                     break
             print("Done TO-DO List :", self.listbox.get(in_Todo[0]))
             time = self.listbox.get(in_Todo[0])[0:5]
@@ -731,8 +730,8 @@ class TodoPage_finished(tk.Frame):
         if(in_Todo != ()):
 
             for i in range(in_Todo[0]-1,-1,-1):
-                if(self.listbox.get(i)[0:3] == "==="):
-                    date = self.listbox.get(i)[15:23]
+                if(self.listbox.get(i)[0:4] == "Date"):
+                    date = self.listbox.get(i)[7:15]
                     break
             time = self.listbox.get(in_Todo[0])[0:5]
             data = self.listbox.get(in_Todo[0])[8:]

@@ -1,0 +1,19 @@
+{
+    "todoData": [
+        {
+            "user_id": 0,
+            "username": "admin",
+            "password": "1234",
+            "taskall_done": 0,
+            "taskall_undone": 0,
+            "todolist": [
+                {
+                    "folder": "School",
+                    "taskfol_done": 0,
+                    "taskfol_undone": 0,
+                    "task": []
+                }
+            ]
+        }
+    ]
+}

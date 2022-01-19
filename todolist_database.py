@@ -14,7 +14,7 @@ class database_todolist():
             print ("Either file is missing or is not readable, creating file...")
             with io.open(os.path.join(self.database_file), 'w') as db_file:
                 db_file.write(json.dumps({"todoData":[]}, indent=4))
-                self.database = json.load(open(self.database_file))
+            self.database = json.load(open(self.database_file))
         
 
     def folder(self,user_ID):
@@ -180,6 +180,7 @@ class database_todolist():
 
                                         i["taskall_undone"] -= 1
                                         i["taskall_done"] += 1
+                                        print("done done done")
 
                                         self.save_json()
                                         return 0
@@ -215,12 +216,13 @@ class database_todolist():
                     if j["folder"] == in_folderName:
                         for k in j["task"]:
                             if k["task_undone"] != 0:
-                                display.append("======= Date : "+ k["date"]+" =======")
+                                display.append("Date : "+ k["date"])
                                 display.append("Done : " + str(k["task_done"]) + "     Undone : " + str(k["task_undone"]))
                                 display.append("            ")
                                 for l in k["todo"]:
                                     if l["done"] == False:
                                         display.append(l["time"]+" - "+l["data"])
+                                display.append("-------------------------------------------------")
                                 display.append("")
         return display
     
@@ -232,11 +234,13 @@ class database_todolist():
                     if j["folder"] == in_folderName:
                         for k in j["task"]:
                             if k["task_done"] != 0:
-                                display.append("======= Date : "+ k["date"]+" =======")
+                                display.append("Date : "+ k["date"])
+                                display.append("Done : " + str(k["task_done"]) + "     Undone : " + str(k["task_undone"]))
                                 display.append("            ")
                                 for l in k["todo"]:
                                     if l["done"] == True:
                                         display.append(l["time"]+" - "+l["data"])
+                                display.append("-------------------------------------------------")
                                 display.append("")
         return display
     
