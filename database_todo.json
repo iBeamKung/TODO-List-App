@@ -4,50 +4,50 @@
             "user_id": 0,
             "username": "admin",
             "password": "1234",
-            "taskall_done": 0,
-            "taskall_undone": 0,
+            "taskall_done": 5,
+            "taskall_undone": 9,
             "todolist": [
                 {
                     "folder": "School",
-                    "taskfol_done": 0,
-                    "taskfol_undone": 0,
+                    "taskfol_done": 5,
+                    "taskfol_undone": 4,
                     "task": [
                         {
-                            "date": "10/1/22",
-                            "task_done": 0,
+                            "date": "10/01/22",
+                            "task_done": 4,
                             "task_undone": 0,
                             "todo": [
                                 {
                                     "data": "goto Toilet",
                                     "time": "09:20",
-                                    "done": false
+                                    "done": true
                                 },
                                 {
                                     "data": "goto Area2",
                                     "time": "10:30",
-                                    "done": false
+                                    "done": true
                                 },
                                 {
                                     "data": "goto TsS",
                                     "time": "11:60",
-                                    "done": false
+                                    "done": true
                                 },
                                 {
                                     "data": "goto HJG",
                                     "time": "19:59",
-                                    "done": false
+                                    "done": true
                                 }
                             ]
                         },
                         {
-                            "date": "11/1/22",
-                            "task_done": 0,
-                            "task_undone": 0,
+                            "date": "11/01/22",
+                            "task_done": 1,
+                            "task_undone": 4,
                             "todo": [
                                 {
                                     "data": "goto building 400",
                                     "time": "09:10",
-                                    "done": false
+                                    "done": true
                                 },
                                 {
                                     "time": "09:10",
@@ -75,11 +75,13 @@
                 },
                 {
                     "folder": "Office",
+                    "taskfol_done": 0,
+                    "taskfol_undone": 8,
                     "task": [
                         {
-                            "date": "10/1/22",
+                            "date": "10/01/22",
                             "task_done": 0,
-                            "task_undone": 0,
+                            "task_undone": 4,
                             "todo": [
                                 {
                                     "data": "goto Toilet",
@@ -106,7 +108,7 @@
                         {
                             "date": "11/1/22",
                             "task_done": 0,
-                            "task_undone": 0,
+                            "task_undone": 4,
                             "todo": [
                                 {
                                     "data": "goto building 40",
@@ -131,34 +133,12 @@
                             ]
                         }
                     ]
-                }
-            ]
-        },
-        {
-            "user_id": 1,
-            "username": "beam",
-            "password": "1234",
-            "taskall_done": 0,
-            "taskall_undone": 0,
-            "todolist": [
+                },
                 {
-                    "folder": "Oishi",
-                    "task_done": 0,
-                    "task_undone": 0,
-                    "task": [
-                        {
-                            "date": "5/10/22",
-                            "task_done": 0,
-                            "task_undone": 1,
-                            "todo": [
-                                {
-                                    "time": "09:65",
-                                    "data": "eat shabu",
-                                    "done": false
-                                }
-                            ]
-                        }
-                    ]
+                    "folder": "Hospital",
+                    "taskfol_done": 0,
+                    "taskfol_undone": 0,
+                    "task": []
                 }
             ]
         }
