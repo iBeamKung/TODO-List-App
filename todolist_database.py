@@ -315,17 +315,19 @@ class database_todolist():
     
     def statTodo(self,user_ID,in_folder):
         labels_date = []
-        alltask_fol = []
-        donetask_fol = []
-        undonetask_fol = []
+        alltask_todo = []
+        donetask_todo = []
+        undonetask_todo = []
         for i in self.database["todoData"]:
             if i["user_id"] == user_ID:
                 for j in i["todolist"]:
-                    labels_fol.append(j["folder"])
-                    alltask_fol.append(j["taskfol_done"]+j["taskfol_undone"])
-                    donetask_fol.append(j["taskfol_done"])
-                    undonetask_fol.append(j["taskfol_undone"])
-        return [labels_fol,alltask_fol,donetask_fol,undonetask_fol]
+                    if j["folder"] == in_folder:
+                        for k in j["task"]:
+                            labels_date.append(k["date"])
+                            alltask_todo.append(k["task_done"]+k["task_undone"])
+                            donetask_todo.append(k["task_done"])
+                            undonetask_todo.append(k["task_undone"])
+        return [labels_date,alltask_todo,donetask_todo,undonetask_todo]
     
     def import_data(self,user_ID,in_filepath):
         load_data = json.load(open(in_filepath))

@@ -36,7 +36,7 @@ class MainApp(tk.Tk):
         container.grid_columnconfigure(0, weight=1)
 
         self.frames = {}
-        for F in (LoginPage,RegisterPage, LoadPage, FolderPage, FolderPage_add, StatFolderPage, TodoPage, TodoPage_add,TodoPage_finished):
+        for F in (LoginPage,RegisterPage, LoadPage, FolderPage, FolderPage_add, StatFolderPage, TodoPage, TodoPage_add,TodoPage_finished, StatTodoPage):
             page_name = F.__name__
             frame = F(parent=container, controller=self)
             self.frames[page_name] = frame
@@ -491,7 +491,7 @@ class TodoPage(tk.Frame):
         
         
         self.image_btn_stat_link = tk.PhotoImage(file='assets/folder/stat.png')
-        image_btn_stat = tk.Button(self, image=self.image_btn_stat_link,borderwidth=0,highlightthickness=0,command=lambda: [self.controller.show_frame("StatFolderPage"),self.controller.frames["StatFolderPage"].pieChartFol(),self.controller.frames["StatFolderPage"].barChartFol()])
+        image_btn_stat = tk.Button(self, image=self.image_btn_stat_link,borderwidth=0,highlightthickness=0,command=lambda: [self.controller.show_frame("StatTodoPage"),self.controller.frames["StatTodoPage"].pieChartFol(),self.controller.frames["StatTodoPage"].barChartFol()])
         image_btn_stat.place(x=54, y= 620, anchor='center')
 
         #label_todo_stat = tk.Label(self, text="All", bg = "#ffffff", font=("Calibri 22 bold"))
@@ -755,23 +755,18 @@ class StatTodoPage(tk.Frame):
         tk.Frame.__init__(self, parent)
         self.controller = controller
         self.configure(background='#f2f1f6')
-        
-        data_stat = data_todo.statFol(0)
 
         image_bg = tk.Canvas(self, width=356, height=576)
         self.image_bg_link = tk.PhotoImage(file="assets/stat/bg_test.png")
         image_bg.create_image(0, 0, anchor=NW, image=self.image_bg_link)
         image_bg.place(x=192, y= 299, anchor='center')
-
-        self.label_alltask = tk.Label(self, text="All Task", bg = "#ffffff", font=("Calibri 22 bold"))
-        self.label_alltask.place(x=40, y= 300, anchor='sw')
         
         self.image_btn_back_link = tk.PhotoImage(file='assets/stat/back.png')
-        image_btn_back = tk.Button(self, image=self.image_btn_back_link,borderwidth=0,command=lambda: [self.controller.show_frame("FolderPage")])
+        image_btn_back = tk.Button(self, image=self.image_btn_back_link,borderwidth=0,command=lambda: [self.controller.show_frame("TodoPage")])
         image_btn_back.place(x=192, y= 631, anchor='center')
         
     def pieChartFol(self):
-        data_stat = data_todo.statFol(self.controller.user_id)
+        data_stat = data_todo.statTodo(self.controller.user_id,self.controller.frames["TodoPage"].label_todo.cget("text"))
         
         fig1 = Figure(figsize=(3, 2.5)) # create a figure object
         ax = fig1.add_subplot(111) # add an Axes to the figure
@@ -785,14 +780,14 @@ class StatTodoPage(tk.Frame):
         self.label_category.place(x=40, y= 73, anchor='sw')
         
     def barChartFol(self):
-        data_stat = data_todo.statFol(self.controller.user_id)
+        data_stat = data_todo.statTodo(self.controller.user_id,self.controller.frames["TodoPage"].label_todo.cget("text"))
         
         x = np.arange(len(data_stat[0]))  # the label locations
         width = 0.2  # the width of the bars
         
         fig2 = Figure(figsize=(3,2.5), dpi=100)
-        barChart = fig2.add_subplot(111) 
-        #subplot1.bar(xAxis,yAxis, color = 'lightsteelblue') 
+        barChart = fig2.add_subplot(111)
+        #subplot1.bar(xAxis,yAxis, color = 'lightsteelblue')
         barChart.bar(x - width, data_stat[1], width, label='Task',color = "#8e44ad")
         barChart.bar(x, data_stat[2], width, label='Complete',color = "#2ecc71")
         barChart.bar(x + width, data_stat[3], width, label='Incomplete',color= "#e74c3c")
