@@ -13,7 +13,7 @@ import numpy as np
 import os
 
 import todolist_database
-data_todo = todolist_database.database_todolist()
+#data_todo = todolist_database.database_todolist()
 
 ### https://stackoverflow.com/questions/7546050/switch-between-two-frames-in-tkinter
 
@@ -29,12 +29,15 @@ class MainApp(tk.Tk):
 
         self.title_font = tkfont.Font(family='Helvetica', size=18, weight="bold")
         self.user_id = -1
+        
+        self.data_todo = todolist_database.database_todolist()
 
         container = tk.Frame(self)
         container.pack(side="top", fill="both", expand=True)
         container.grid_rowconfigure(0, weight=1)
         container.grid_columnconfigure(0, weight=1)
 
+        """ Load All Page into Mainapp"""
         self.frames = {}
         for F in (LoginPage,RegisterPage, LoadPage, FolderPage, FolderPage_add, StatFolderPage, TodoPage, TodoPage_add,TodoPage_finished, StatTodoPage):
             page_name = F.__name__
@@ -94,7 +97,7 @@ class LoginPage(tk.Frame):
 
     def check(self,username,password) :
         print("GUI :", "Login", "Username>", username, "Password>", password)
-        user_id = data_todo.loginCheck(username,password)
+        user_id = self.controller.data_todo.loginCheck(username,password)
         if user_id == "error":
             print("GUI : Login Failed")
             tk.messagebox.showerror("Error", "incorrect username or password")
@@ -142,7 +145,7 @@ class RegisterPage(tk.Frame) :
 
     def create_account(self,newUsername,newPassword) :
         print("GUI :", "Register", "Username>", newUsername, "Password>", newPassword)
-        if(data_todo.register_user(newUsername.lower(),newPassword)):
+        if(self.controller.data_todo.register_user(newUsername.lower(),newPassword)):
             print("GUI :", "Register Success !", "Username>", newUsername)
             self.entry_newUsername.delete(0, 'end')
             self.entry_newPassword.delete(0, 'end')
@@ -185,22 +188,24 @@ class LoadPage(tk.Frame):
         image_btn_import.place(x=192, y= 368, anchor='center')
 
     def import_data(self):
+        """ Search JSON file to import """
         print("GUI :", "Import Data !")
         file = filedialog.askopenfile(mode='r', filetypes=[('JSON Files', '*.json')])
         if file:
             import_confirm = tk.messagebox.askyesno("Import Data","Are your sure you want to Import this data ?")
             if import_confirm:
                 filepath = os.path.abspath(file.name)
-                data_todo.import_data(self.controller.user_id,filepath)
+                self.controller.data_todo.import_data(self.controller.user_id,filepath)
                 tk.messagebox.showinfo("Import Data", "Import Data Success!")
                 self.controller.frames["FolderPage"].update_listbox()
                 self.controller.show_frame("FolderPage")
 
     def export_data(self):
+        """ Get Folder to Export JSON file """
         print("GUI :", "Export Data !")
         folder_selected = filedialog.askdirectory()
         if folder_selected:
-            data_todo.export_data(self.controller.user_id,folder_selected)
+            self.controller.data_todo.export_data(self.controller.user_id,folder_selected)
             tk.messagebox.showinfo("Export Data", "Export Data Success! : " + folder_selected)
             self.controller.show_frame("FolderPage")
 
@@ -276,12 +281,13 @@ class FolderPage(tk.Frame):
         self.label_undone_stat.place(x=260, y= 632, anchor='sw')
 
     def update_listbox(self):
+        """ Refresh Page """
         print("GUI :", "Update FolderPage !")
         self.listbox.delete(0,END)
-        name_folder = data_todo.folder(self.controller.user_id)
+        name_folder = self.controller.data_todo.folder(self.controller.user_id)
         for values in name_folder:
             self.listbox.insert(END,"📁"+ values)
-        stat = data_todo.display_all_stat(self.controller.user_id)
+        stat = self.controller.data_todo.display_all_stat(self.controller.user_id)
         self.label_all_stat.config(text = "AllTask: "+ str(stat[0]))
         self.label_done_stat.config(text = "Done: "+ str(stat[1]))
         self.label_undone_stat.config(text = "Undone: "+ str(stat[2]))
@@ -304,7 +310,7 @@ class FolderPage(tk.Frame):
             delete_confirm = tk.messagebox.askyesno("Delete Folder","Would you like to delete the "+self.listbox.get(nameFolder[0])+'?')
             if delete_confirm:
                 print("Delete Folder :", self.listbox.get(nameFolder[0]))
-                data_todo.del_folder(self.controller.user_id,self.listbox.get(nameFolder[0])[1:])
+                self.controller.data_todo.del_folder(self.controller.user_id,self.listbox.get(nameFolder[0])[1:])
                 self.update_listbox()
         else:
             print("GUI :", "Delete Folder Error !")
@@ -358,7 +364,7 @@ class FolderPage_add(tk.Frame):
     def add(self,input_name):
         print("GUI :", "Add Folder", "Folder>", input_name)
         if input_name != "":
-            if(data_todo.add_folder(self.controller.user_id,input_name) == "error"):
+            if(self.controller.data_todo.add_folder(self.controller.user_id,input_name) == "error"):
                 tk.messagebox.showerror("Error", "Error : Foldername is already taken")
             else:
                 self.controller.show_frame("FolderPage")
@@ -386,7 +392,7 @@ class StatFolderPage(tk.Frame):
         image_btn_back.place(x=192, y= 631, anchor='center')
 
     def pieChartFol(self):
-        data_stat = data_todo.statGraphFol(self.controller.user_id)
+        data_stat = self.controller.data_todo.statGraphFol(self.controller.user_id)
         #['']
         fig1 = Figure(figsize=(3, 2.5)) # create a figure object
         ax = fig1.add_subplot(111) # add an Axes to the figure
@@ -400,7 +406,7 @@ class StatFolderPage(tk.Frame):
         self.label_category.place(x=40, y= 73, anchor='sw')
 
     def barChartFol(self):
-        data_stat = data_todo.statGraphFol(self.controller.user_id)
+        data_stat = self.controller.data_todo.statGraphFol(self.controller.user_id)
 
         x = np.arange(len(data_stat[0]))  # the label locations [0,1]
         width = 0.2  # the width of the bars
@@ -500,10 +506,10 @@ class TodoPage(tk.Frame):
     def update_listbox(self):
         print("GUI :", "Update TodoPage ! >", self.label_todo.cget("text"))
         self.listbox.delete(0,END)
-        name_task = data_todo.display_undone_task(self.controller.user_id,self.label_todo.cget("text"))
+        name_task = self.controller.data_todo.display_undone_task(self.controller.user_id,self.label_todo.cget("text"))
         for values in name_task:
             self.listbox.insert(END,values)
-        stat = data_todo.display_fol_stat(self.controller.user_id,self.label_todo.cget("text"))
+        stat = self.controller.data_todo.display_fol_stat(self.controller.user_id,self.label_todo.cget("text"))
         self.label_all_stat.config(text = "FolderTask: "+ str(stat[0]))
         self.label_done_stat.config(text = "Done: "+ str(stat[1]))
         self.label_undone_stat.config(text = "Undone: "+ str(stat[2]))
@@ -513,6 +519,7 @@ class TodoPage(tk.Frame):
         self.controller.show_frame("TodoPage_add")
 
     def doneTodo(self,in_Folder,in_Todo):
+        """ get list todo to set done"""
         if(in_Todo != ()):
             for i in range(in_Todo[0]-1,-1,-1):
                 if(self.listbox.get(i)[0:4] == "Date"):
@@ -520,7 +527,7 @@ class TodoPage(tk.Frame):
                     break
             time = self.listbox.get(in_Todo[0])[0:5]
             data = self.listbox.get(in_Todo[0])[8:]
-            data_todo.done_task(self.controller.user_id,in_Folder,date,time,data)
+            self.controller.data_todo.done_task(self.controller.user_id,in_Folder,date,time,data)
             self.update_listbox()
             self.controller.frames["TodoPage_finished"].update_listbox()
             self.controller.frames["FolderPage"].update_listbox()
@@ -538,7 +545,7 @@ class TodoPage(tk.Frame):
             if(time[2] == ":"):
                 delete_confirm = tk.messagebox.askyesno("Delete TODO","Would you like to delete the '"+data+"'?")
                 if delete_confirm:
-                    data_todo.del_task(self.controller.user_id,in_Folder,date,time,data)
+                    self.controller.data_todo.del_task(self.controller.user_id,in_Folder,date,time,data)
                     self.update_listbox()
                     self.controller.frames["TodoPage_finished"].update_listbox()
                     self.controller.frames["FolderPage"].update_listbox()
@@ -638,7 +645,7 @@ class TodoPage_add(tk.Frame):
     def add(self,input_nameFolder,input_date,input_time,input_task):
         print("GUI :", " TO-DO List", "TODO>",input_task)
         if input_date != "" and input_task != "":
-            data_todo.add_task(self.controller.user_id,input_nameFolder,input_date,input_time,input_task)
+            self.controller.data_todo.add_task(self.controller.user_id,input_nameFolder,input_date,input_time,input_task)
             self.controller.frames["FolderPage"].update_listbox()
             self.controller.frames["TodoPage"].update_listbox()
             self.controller.show_frame("TodoPage")
@@ -684,7 +691,7 @@ class TodoPage_finished(tk.Frame):
     def update_listbox(self):
         print("GUI :", "Update TodoPage Complete ! >", self.label_todo.cget("text"))
         self.listbox.delete(0,END)
-        name_task = data_todo.display_done_task(self.controller.user_id,self.label_todo.cget("text"))
+        name_task = self.controller.data_todo.display_done_task(self.controller.user_id,self.label_todo.cget("text"))
         for values in name_task:
             self.listbox.insert(END,values)
 
@@ -697,7 +704,7 @@ class TodoPage_finished(tk.Frame):
             print("GUI :", "Todo List Undone >", self.listbox.get(in_Todo[0]))
             time = self.listbox.get(in_Todo[0])[0:5]
             data = self.listbox.get(in_Todo[0])[8:]
-            data_todo.undone_task(self.controller.user_id,in_Folder,date,time,data)
+            self.controller.data_todo.undone_task(self.controller.user_id,in_Folder,date,time,data)
             self.update_listbox()
             self.controller.frames["TodoPage"].update_listbox()
             self.controller.frames["FolderPage"].update_listbox()
@@ -715,7 +722,7 @@ class TodoPage_finished(tk.Frame):
             if(time[2] == ":"):
                 delete_confirm = tk.messagebox.askyesno("Delete TODO","Would you like to delete the '"+data+"'?")
                 if delete_confirm:
-                    data_todo.del_task(self.controller.user_id,in_Folder,date,time,data)
+                    self.controller.data_todo.del_task(self.controller.user_id,in_Folder,date,time,data)
                     self.update_listbox()
                     self.controller.frames["TodoPage_finished"].update_listbox()
                     self.controller.frames["FolderPage"].update_listbox()
@@ -741,7 +748,7 @@ class StatTodoPage(tk.Frame):
         image_btn_back.place(x=192, y= 631, anchor='center')
 
     def pieChartFol(self):
-        data_stat = data_todo.statGraphTodo(self.controller.user_id,self.controller.frames["TodoPage"].label_todo.cget("text"))
+        data_stat = self.controller.data_todo.statGraphTodo(self.controller.user_id,self.controller.frames["TodoPage"].label_todo.cget("text"))
 
         fig1 = Figure(figsize=(3, 2.5)) # create a figure object
         ax = fig1.add_subplot(111) # add an Axes to the figure
@@ -755,7 +762,7 @@ class StatTodoPage(tk.Frame):
         self.label_category.place(x=40, y= 73, anchor='sw')
 
     def barChartFol(self):
-        data_stat = data_todo.statGraphTodo(self.controller.user_id,self.controller.frames["TodoPage"].label_todo.cget("text"))
+        data_stat = self.controller.data_todo.statGraphTodo(self.controller.user_id,self.controller.frames["TodoPage"].label_todo.cget("text"))
 
         x = np.arange(len(data_stat[0]))  # the label locations
         width = 0.2  # the width of the bars

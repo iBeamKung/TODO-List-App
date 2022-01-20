@@ -18,6 +18,7 @@ class database_todolist():
         
 
     def folder(self,user_ID):
+        """ get folder in user """
         folderName = []
         for i in self.database["todoData"]:
             if i["user_id"] == user_ID:
@@ -56,6 +57,7 @@ class database_todolist():
         return "Error! >>> Del Folder : " + str(folderName)
 
     def task(self,user_ID,in_folderName):
+        """ get task in folder """
         for i in self.database["todoData"]:
             if i["user_id"] == user_ID:
                 for j in i["todolist"]:
@@ -140,6 +142,7 @@ class database_todolist():
                                         return 0
 
     def done_task(self,user_ID,in_folderName,in_date,in_time,in_task):
+        """ get list todo to set done"""
         for i in self.database["todoData"]:
             if i["user_id"] == user_ID:
                 for j in i["todolist"]:
@@ -212,7 +215,6 @@ class database_todolist():
                         for k in j["task"]:
                             if k["task_done"] != 0:
                                 display.append("Date : "+ k["date"])
-                                #display.append("Done : " + str(k["task_done"]) + "     Undone : " + str(k["task_undone"]))
                                 display.append("            ")
                                 for l in k["todo"]:
                                     if l["done"] == True:
@@ -240,7 +242,7 @@ class database_todolist():
                         display.append(j["taskfol_done"])
                         display.append(j["taskfol_undone"])
         return display
-    
+
     def statGraphFol(self,user_ID):
         labels_fol = []
         alltask_fol = []
@@ -274,11 +276,6 @@ class database_todolist():
     def save_json(self):
         print("Database :", "Database Save !")
         with open(self.database_file, 'w', encoding='utf-8') as f:
-            json.dump(self.database, f, ensure_ascii=False, indent=4)
-
-    def testsave_json(self):
-        print("Database :", "Database Test Save !")
-        with open('database_test.json', 'w', encoding='utf-8') as f:
             json.dump(self.database, f, ensure_ascii=False, indent=4)
 
     def loginCheck(self,in_username,in_password):
@@ -336,39 +333,4 @@ class database_todolist():
 
 if __name__ == '__main__':
     data = database_todolist()
-    #print(data.database)
-    #print(data.folder(0))
-    #print(data.task(0,"School"))
-    """
-    print(data.add_task(0,"School","11/1/22","09:10","goto Chonlada"))
-    print("================================")
-    print(data.task(0,"School"))
-    print("================================")
-    print(data.del_task(0,"School","11/1/22","09:10","goto Chonlada"))
-    print("================================")
-    print(data.task(0,"School"))
-    print("================================")
-    """
-    #print(data.display_task(0,"School"))
-    #print(data.add_folder(0,"BOMB"))
-    #print(data.folder(0))
-    #print(data.del_folder(0,"BOMB"))
-    #print(data.folder(0))
-    #print(data.task(0,"BOMB"))
-    #print(data.del_task("Work",0))
-    #print(data.add_folder("BOMB"))
-    #print(data.database)
-    #print("====================================")
-    #print(data.del_folder("BOMB"))
-    #print(data.database)
-    #print("====================================")
-    #print(data.save_json())
-    #print(data.register_user("Netipat","1234"))
-    #print(data.testsave_json())
-    #print(data.register_user("Netipat","1234"))
-    #print(data.statFol(0))
-    
-    #data.import_data(0,"D:\Github\TODO-List-App\dataimport.json")
-    #data.export_data(0,"D:\Github\TODO-List-App\dataimport.json")
-    
     #print(data.database)

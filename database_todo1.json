@@ -4,8 +4,101 @@
             "user_id": 0,
             "username": "admin",
             "password": "1234",
+            "taskall_done": 4,
+            "taskall_undone": 3,
+            "todolist": [
+                {
+                    "folder": "Hospital",
+                    "taskfol_done": 3,
+                    "taskfol_undone": 1,
+                    "task": [
+                        {
+                            "date": "01/01/22",
+                            "task_done": 2,
+                            "task_undone": 0,
+                            "todo": [
+                                {
+                                    "time": "08:30",
+                                    "data": "eat shabu",
+                                    "done": true
+                                },
+                                {
+                                    "time": "08:30",
+                                    "data": "sleep",
+                                    "done": true
+                                }
+                            ]
+                        },
+                        {
+                            "date": "07/01/22",
+                            "task_done": 1,
+                            "task_undone": 1,
+                            "todo": [
+                                {
+                                    "time": "08:48",
+                                    "data": "eat burger",
+                                    "done": false
+                                },
+                                {
+                                    "time": "17:48",
+                                    "data": "goto cinema",
+                                    "done": true
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "folder": "School",
+                    "taskfol_done": 1,
+                    "taskfol_undone": 1,
+                    "task": [
+                        {
+                            "date": "07/01/22",
+                            "task_done": 1,
+                            "task_undone": 1,
+                            "todo": [
+                                {
+                                    "time": "06:48",
+                                    "data": "eat popcorn",
+                                    "done": true
+                                },
+                                {
+                                    "time": "17:48",
+                                    "data": "eat shabu",
+                                    "done": false
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "folder": "KMUTNB",
+                    "taskfol_done": 0,
+                    "taskfol_undone": 1,
+                    "task": [
+                        {
+                            "date": "21/01/22",
+                            "task_done": 0,
+                            "task_undone": 1,
+                            "todo": [
+                                {
+                                    "time": "15:21",
+                                    "data": "Submit Homework Math",
+                                    "done": false
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "user_id": 1,
+            "username": "mebeamza",
+            "password": "1234",
             "taskall_done": 1,
-            "taskall_undone": 5,
+            "taskall_undone": 6,
             "todolist": [
                 {
                     "folder": "Hospital",
@@ -66,6 +159,25 @@
                                 {
                                     "time": "17:48",
                                     "data": "eat shabu",
+                                    "done": false
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "folder": "KMUTNB",
+                    "taskfol_done": 0,
+                    "taskfol_undone": 1,
+                    "task": [
+                        {
+                            "date": "21/01/22",
+                            "task_done": 0,
+                            "task_undone": 1,
+                            "todo": [
+                                {
+                                    "time": "15:21",
+                                    "data": "Submit Homework Math",
                                     "done": false
                                 }
                             ]
