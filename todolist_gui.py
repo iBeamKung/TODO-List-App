@@ -142,7 +142,7 @@ class RegisterPage(tk.Frame) :
 
     def create_account(self,newUsername,newPassword) :
         print("GUI :", "Register", "Username>", newUsername, "Password>", newPassword)
-        if(data_todo.register_user(newUsername.lower(),newPassword.lower())):
+        if(data_todo.register_user(newUsername.lower(),newPassword)):
             print("GUI :", "Register Success !", "Username>", newUsername)
             self.entry_newUsername.delete(0, 'end')
             self.entry_newPassword.delete(0, 'end')
@@ -387,7 +387,7 @@ class StatFolderPage(tk.Frame):
 
     def pieChartFol(self):
         data_stat = data_todo.statGraphFol(self.controller.user_id)
-
+        #['']
         fig1 = Figure(figsize=(3, 2.5)) # create a figure object
         ax = fig1.add_subplot(111) # add an Axes to the figure
 
@@ -402,11 +402,12 @@ class StatFolderPage(tk.Frame):
     def barChartFol(self):
         data_stat = data_todo.statGraphFol(self.controller.user_id)
 
-        x = np.arange(len(data_stat[0]))  # the label locations
+        x = np.arange(len(data_stat[0]))  # the label locations [0,1]
         width = 0.2  # the width of the bars
 
         fig2 = Figure(figsize=(3,2.5), dpi=100)
-        barChart = fig2.add_subplot(111) 
+        barChart = fig2.add_subplot(111)
+
         barChart.bar(x - width, data_stat[1], width, label='Task',color = "#8e44ad")
         barChart.bar(x, data_stat[2], width, label='Complete',color = "#2ecc71")
         barChart.bar(x + width, data_stat[3], width, label='Incomplete',color= "#e74c3c")
@@ -427,7 +428,7 @@ class StatFolderPage(tk.Frame):
             bar_color = bar.get_facecolor()
             barChart.text(text_x, text_y, text, ha='center', va='bottom', color=bar_color,size=8)
 
-        barDisplay = FigureCanvasTkAgg(fig2, self) 
+        barDisplay = FigureCanvasTkAgg(fig2, self)
         barDisplay.get_tk_widget().place(x=192, y= 290, anchor='n')
 
         self.label_alltask = tk.Label(self, text="All Task", bg = "#ffffff", font=("Calibri 22 bold"))
@@ -750,7 +751,7 @@ class StatTodoPage(tk.Frame):
         pieChart = FigureCanvasTkAgg(fig1,self)
         pieChart.get_tk_widget().place(x=192, y= 40, anchor='n')
 
-        self.label_category = tk.Label(self, text="Category", bg = "#ffffff", font=("Calibri 22 bold"))
+        self.label_category = tk.Label(self, text="Date", bg = "#ffffff", font=("Calibri 22 bold"))
         self.label_category.place(x=40, y= 73, anchor='sw')
 
     def barChartFol(self):
@@ -784,7 +785,7 @@ class StatTodoPage(tk.Frame):
         barDisplay = FigureCanvasTkAgg(fig2, self) 
         barDisplay.get_tk_widget().place(x=192, y= 290, anchor='n')
 
-        self.label_alltask = tk.Label(self, text="All Task", bg = "#ffffff", font=("Calibri 22 bold"))
+        self.label_alltask = tk.Label(self, text="Task stat", bg = "#ffffff", font=("Calibri 22 bold"))
         self.label_alltask.place(x=40, y= 300, anchor='sw')
 
 if __name__ == "__main__":

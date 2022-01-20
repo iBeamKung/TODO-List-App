@@ -4,14 +4,73 @@
             "user_id": 0,
             "username": "admin",
             "password": "1234",
-            "taskall_done": 0,
-            "taskall_undone": 0,
+            "taskall_done": 1,
+            "taskall_undone": 5,
             "todolist": [
                 {
                     "folder": "Hospital",
+                    "taskfol_done": 1,
+                    "taskfol_undone": 3,
+                    "task": [
+                        {
+                            "date": "01/01/22",
+                            "task_done": 1,
+                            "task_undone": 1,
+                            "todo": [
+                                {
+                                    "time": "08:30",
+                                    "data": "eat shabu",
+                                    "done": true
+                                },
+                                {
+                                    "time": "08:30",
+                                    "data": "sleep",
+                                    "done": false
+                                }
+                            ]
+                        },
+                        {
+                            "date": "07/01/22",
+                            "task_done": 0,
+                            "task_undone": 2,
+                            "todo": [
+                                {
+                                    "time": "08:48",
+                                    "data": "eat burger",
+                                    "done": false
+                                },
+                                {
+                                    "time": "17:48",
+                                    "data": "goto cinema",
+                                    "done": false
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "folder": "School",
                     "taskfol_done": 0,
-                    "taskfol_undone": 0,
-                    "task": []
+                    "taskfol_undone": 2,
+                    "task": [
+                        {
+                            "date": "07/01/22",
+                            "task_done": 0,
+                            "task_undone": 2,
+                            "todo": [
+                                {
+                                    "time": "06:48",
+                                    "data": "eat popcorn",
+                                    "done": false
+                                },
+                                {
+                                    "time": "17:48",
+                                    "data": "eat shabu",
+                                    "done": false
+                                }
+                            ]
+                        }
+                    ]
                 }
             ]
         }
